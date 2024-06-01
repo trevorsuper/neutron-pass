@@ -14,7 +14,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     }
 
     // Placeholder until database
-    if (email === 'test@example.com' && password === 'password123') {
+    if (email === 'test@example.com' && password === 'Password123') {
         
         alert('Verification code sent to your email');
 

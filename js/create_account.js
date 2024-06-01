@@ -24,7 +24,7 @@ document.getElementById('createAccountForm').addEventListener('submit', function
     alert('Account created successfully! Please check your email for verification.');
 
     // Redirect to login page
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 });
 
 document.getElementById('showPasswordButton').addEventListener('click', function() {

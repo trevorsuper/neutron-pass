@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/accounts.css">
+</head>
+<body>
+    <div class="login-container" id="login-step">
+        <img src="../img/logo.png" alt="Neutron Pass Logo" class="logo">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+            <button type="button" id="createAccountButton">Create Account</button>
+            <p id="error-message"></p>
+        </form>
+    </div>
+    <div class="login-container" id="code-step" style="display: none;">
+        <h2>Enter Verification Code</h2>
+        <form id="codeForm">
+            <label for="code">Verification Code:</label>
+            <input type="text" id="code" name="code" required>
+            <button type="submit">Verify</button>
+            <p id="code-error-message"></p>
+        </form>
+    </div>
+    <script src="../js/login.js"></script>
+</body>
+</html>
