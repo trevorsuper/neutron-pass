@@ -41,7 +41,7 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
 
     // Placeholder until database
     if (code === '123456') {
-        alert('Login successful!');
+        window.location.href = 'welcome.html';
         // Redirect to another page or perform other actions
     } else {
         errorMessage.textContent = 'Invalid verification code.';
