@@ -2,43 +2,56 @@ document.getElementById('createAccountForm').addEventListener('submit', function
     event.preventDefault();
     
     const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+    const loginPassword = document.getElementById('login_password').value;
+    const confirmLoginPassword = document.getElementById('confirm-login-password').value;
+    const masterPassword = document.getElementById('master_password').value;
+    const confirmMasterPassword = document.getElementById('confirm-master-password').value;
     const errorMessage = document.getElementById('create-error-message');
 
     // Clear previous error message
     errorMessage.textContent = '';
 
     // Simple validation
-    if (email === '' || password === '' || confirmPassword === '') {
+    if (email === '' || loginPassword === '' || confirmLoginPassword === '' || masterPassword === '' || confirmMasterPassword === '') {
         errorMessage.textContent = 'Please fill in all fields.';
         return;
     }
 
-    if (password !== confirmPassword) {
-        errorMessage.textContent = 'Passwords do not match.';
+    if (loginPassword !== confirmLoginPassword) {
+        errorMessage.textContent = 'Login passwords do not match.';
+        return;
+    }
+
+    if (masterPassword !== confirmMasterPassword) {
+        errorMessage.textContent = 'Master passwords do not match.';
         return;
     }
 
     // Placeholder for actual account creation logic
     //alert('Account created successfully! Please check your email for verification.');
 
-    console.log(SHA256.hash(password));
-    
+    console.log(SHA256.hash(loginPassword));
+    console.log(SHA256.hash(masterPassword));
 
     // Redirect to login page
     window.location.href = 'login.html';
 });
 
 document.getElementById('showPasswordButton').addEventListener('click', function() {
-    const passwordField = document.getElementById('password');
-    const confirmPasswordField = document.getElementById('confirm-password');
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        confirmPasswordField.type = 'text';
+    const loginPasswordField = document.getElementById('login_password');
+    const confirmLoginPasswordField = document.getElementById('confirm-login-password');
+    const masterPasswordField = document.getElementById('master_password');
+    const confirmMasterPasswordField = document.getElementById('confirm-master-password');
+    if (loginPasswordField.type === 'password') {
+        loginPasswordField.type = 'text';
+        confirmLoginPasswordField.type = 'text';
+        masterPasswordField.type = 'text';
+        confirmMasterPasswordField.type = 'text';
     } else {
-        passwordField.type = 'password';
-        confirmPasswordField.type = 'password';
+        loginPasswordField.type = 'password';
+        confirmLoginPasswordField.type = 'password';
+        masterPasswordField.type = 'password';
+        confirmMasterPasswordField.type = 'password';
     }
 });
 
