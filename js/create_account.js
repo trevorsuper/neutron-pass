@@ -33,7 +33,7 @@ document.getElementById('createAccountForm').addEventListener('submit', function
             console.error(data.error);
         } else {
             alert('Account created successfully! Please check your email for verification.');
-            window.location.href = 'index.html';
+            window.location.href = 'landing.html';
         }
     })
     .catch(error => {
