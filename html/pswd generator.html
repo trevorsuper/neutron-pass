@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neutron Pass</title>
+  <link rel="stylesheet" href="passwordgen.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+  <h1>Neutron Pass</h1>
+  <div>A Password Manager</div>
+  <a href="login.html">Login</a>
+  <a href="create_account.html">Create an Account</a>
+
+  <!-- Password Generator Section -->
+  <div class="container">
+      <h1>Password Generator</h1>
+
+      <!-- Length Selection -->
+      <label for="length">Length (5-25):</label>
+      <input type="number" id="length" name="length" min="5" max="25" value="12">
+
+      <!-- Character Type Selection -->
+      <div>
+        <input type="checkbox" id="includeLowercase" checked>
+        <label for="includeLowercase">Include Lowercase</label>
+      </div>
+      <div>
+        <input type="checkbox" id="includeUppercase" checked>
+        <label for="includeUppercase">Include Uppercase</label>
+      </div>
+      <div>
+        <input type="checkbox" id="includeNumbers" checked>
+        <label for="includeNumbers">Include Numbers</label>
+      </div>
+      <div>
+        <input type="checkbox" id="includeSymbols" checked>
+        <label for="includeSymbols">Include Symbols</label>
+      </div>
+
+      <button id="generateBtn">Generate Password</button>
+      <div id="passwordContainer">
+          <p id="message"></p>
+          <p id="password"></p>
+      </div>
+  </div>
+
+  <script src="pswdgen.js"></script> <!-- Link to the JavaScript file -->
+</body>
+</html>

@@ -1,38 +1,38 @@
-document.getElementById('generateBtn').addEventListener('click', generatePassword);
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('generateBtn').addEventListener('click', generatePassword);
+});
 
 function generatePassword() {
-    const length = 12;
+    const length = parseInt(document.getElementById('length').value);
+    const includeLowercase = document.getElementById('includeLowercase').checked;
+    const includeUppercase = document.getElementById('includeUppercase').checked;
+    const includeNumbers = document.getElementById('includeNumbers').checked;
+    const includeSymbols = document.getElementById('includeSymbols').checked;
+
     const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
     const numbers = '0123456789';
-    const symbols = '!@#$%^&*()_+[]{}|;:,.<>?';
+    const symbols = '!@#$%^&*()';
 
-    const allCharacters = upperCase + lowerCase + numbers + symbols;
+    let allCharacters = '';
+    if (includeLowercase) allCharacters += lowerCase;
+    if (includeUppercase) allCharacters += upperCase;
+    if (includeNumbers) allCharacters += numbers;
+    if (includeSymbols) allCharacters += symbols;
+
+    if (allCharacters.length === 0) {
+        alert('At least one character set must be selected');
+        return;
+    }
+
     let password = '';
 
-    // Ensure password contains at least one character from each character set
-    password += upperCase[Math.floor(Math.random() * upperCase.length)];
-    password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
-    password += numbers[Math.floor(Math.random() * numbers.length)];
-    password += symbols[Math.floor(Math.random() * symbols.length)];
-
-    // Fill the rest of the password length
-    for (let i = password.length; i < length; i++) {
+    // Fill the password length with random characters from the selected sets
+    for (let i = 0; i < length; i++) {
         password += allCharacters[Math.floor(Math.random() * allCharacters.length)];
     }
 
-    // Shuffle the password to avoid predictable patterns
-    password = shuffle(password);
-
-    // Display the password
+    // Display the message and the password
+    document.getElementById('message').innerText = "Here's your new password:";
     document.getElementById('password').innerText = password;
-}
-
-function shuffle(string) {
-    const array = string.split('');
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array.join('');
 }
