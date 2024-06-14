@@ -72,11 +72,11 @@ document.getElementById('createAccountButton').addEventListener('click', functio
 
 /*
 function setCookie(email_literal, email_actual, password_literal, password_actual, daysToLive){
-    const date = new Date();
-    date.setTime(date.getTime() + (daysToLive * 24 * 60 * 60 * 1000));
-    let expires = "expires=" + date.toUTCString();
-    document.cookie = `${email_literal}=${email_actual};`;
-    document.cookie = `${password_literal}=${password_actual};`;
-    //console.log(document.cookie); // debug log to read the cookies
+  const date = new Date();
+  date.setTime(date.getTime() + (daysToLive * 24 * 60 * 60 * 1000));
+  let expires = "expires=" + date.toUTCString();
+  document.cookie = `${email_literal}=${email_actual};`;
+  document.cookie = `${password_literal}=${password_actual};`;
+  //console.log(document.cookie); // debug log to read the cookies
 }
 */

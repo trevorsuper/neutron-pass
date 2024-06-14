@@ -1,74 +1,71 @@
 document.getElementById('createAccountForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+  event.preventDefault();
+  const email = document.getElementById('email').value;
+  const loginPassword = document.getElementById('login_password').value;
+  const confirmLoginPassword = document.getElementById('confirm-login-password').value;
+  const masterPassword = document.getElementById('master_password').value;
+  const confirmMasterPassword = document.getElementById('confirm-master-password').value;
+  const errorMessage = document.getElementById('create-error-message');
+  errorMessage.textContent = '';
+
+  if (email === '' || loginPassword === '' || confirmLoginPassword === '' || masterPassword === '' || confirmMasterPassword === '') {
+      errorMessage.textContent = 'Please fill in all fields.';
+      return;
+  }
+  if (loginPassword !== confirmLoginPassword) {
+      errorMessage.textContent = 'Login passwords do not match.';
+      return;
+  }
+  if (masterPassword !== confirmMasterPassword) {
+      errorMessage.textContent = 'Master passwords do not match.';
+      return;
+  }
+  console.log(SHA256.hash(loginPassword)); // Example Login Password is Password123 | Hashed Version: 008c70392e3abfbd0fa47bbc2ed96aa99bd49e159727fcba0f2e6abeb3a9d601
+  console.log(SHA256.hash(masterPassword)); // Example Master Password is 1 | Hashed Version: 6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b
     
-    const email = document.getElementById('email').value;
-    const loginPassword = document.getElementById('login_password').value;
-    const confirmLoginPassword = document.getElementById('confirm-login-password').value;
-    const masterPassword = document.getElementById('master_password').value;
-    const confirmMasterPassword = document.getElementById('confirm-master-password').value;
-    const errorMessage = document.getElementById('create-error-message');
-
-    errorMessage.textContent = '';
-
-    if (email === '' || loginPassword === '' || confirmLoginPassword === '' || masterPassword === '' || confirmMasterPassword === '') {
-        errorMessage.textContent = 'Please fill in all fields.';
-        return;
+  // Send a request to the server to send the verification email
+  fetch('http://localhost:3000/send-verification-email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify({ email: email })
+  })
+  .then(response => response.text())
+  .then(data => {
+    if (data.error) {
+      errorMessage.textContent = 'Failed to send verification email.';
+      console.error(data.error);
+    } else {
+      alert('Account created successfully! Please check your email for verification.');
+      window.location.href = 'landing.html';
     }
-
-    if (loginPassword !== confirmLoginPassword) {
-        errorMessage.textContent = 'Login passwords do not match.';
-        return;
-    }
-
-    if (masterPassword !== confirmMasterPassword) {
-        errorMessage.textContent = 'Master passwords do not match.';
-        return;
-    }
-    console.log(SHA256.hash(loginPassword)); // Example Login Password is Password123 | Hashed Version: 008c70392e3abfbd0fa47bbc2ed96aa99bd49e159727fcba0f2e6abeb3a9d601
-    console.log(SHA256.hash(masterPassword)); // Example Master Password is 1 | Hashed Version: 6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b
-    
-    // Send a request to the server to send the verification email
-    fetch('http://localhost:3000/send-verification-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: email })
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data.error) {
-            errorMessage.textContent = 'Failed to send verification email.';
-            console.error(data.error);
-        } else {
-            alert('Account created successfully! Please check your email for verification.');
-            window.location.href = 'landing.html';
-        }
-    })
-    .catch(error => {
-        errorMessage.textContent = 'Failed to send verification email.';
-        console.error('Error:', error);
-    });
+  })
+  .catch(error => {
+      errorMessage.textContent = 'Failed to send verification email.';
+      console.error('Error:', error);
+  });
 });
 
 document.getElementById('showPasswordButton').addEventListener('click', function() {
-    const loginPasswordField = document.getElementById('login_password');
-    const confirmLoginPasswordField = document.getElementById('confirm-login-password');
-    const masterPasswordField = document.getElementById('master_password');
-    const confirmMasterPasswordField = document.getElementById('confirm-master-password');
-    if (loginPasswordField.type === 'password') {
-        loginPasswordField.type = 'text';
-        confirmLoginPasswordField.type = 'text';
-        masterPasswordField.type = 'text';
-        confirmMasterPasswordField.type = 'text';
-    } else {
-        loginPasswordField.type = 'password';
-        confirmLoginPasswordField.type = 'password';
-        masterPasswordField.type = 'password';
-        confirmMasterPasswordField.type = 'password';
-    }
+  const loginPasswordField = document.getElementById('login_password');
+  const confirmLoginPasswordField = document.getElementById('confirm-login-password');
+  const masterPasswordField = document.getElementById('master_password');
+  const confirmMasterPasswordField = document.getElementById('confirm-master-password');
+  if (loginPasswordField.type === 'password') {
+    loginPasswordField.type = 'text';
+    confirmLoginPasswordField.type = 'text';
+    masterPasswordField.type = 'text';
+    confirmMasterPasswordField.type = 'text';
+  } else {
+    loginPasswordField.type = 'password';
+    confirmLoginPasswordField.type = 'password';
+    masterPasswordField.type = 'password';
+    confirmMasterPasswordField.type = 'password';
+  }
 });
 
+// Start of source code from AndersLindman
 SHA256 = {};
 
 SHA256.K = [
