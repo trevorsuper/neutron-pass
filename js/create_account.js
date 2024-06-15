@@ -8,17 +8,23 @@ document.getElementById('createAccountForm').addEventListener('submit', function
   const errorMessage = document.getElementById('create-error-message');
   errorMessage.textContent = '';
 
+  /* Database portion of code */
+
+  
+
+  /* Database portion of code */
+
   if (email === '' || loginPassword === '' || confirmLoginPassword === '' || masterPassword === '' || confirmMasterPassword === '') {
-      errorMessage.textContent = 'Please fill in all fields.';
-      return;
+    errorMessage.textContent = 'Please fill in all fields.';
+    return;
   }
   if (loginPassword !== confirmLoginPassword) {
-      errorMessage.textContent = 'Login passwords do not match.';
-      return;
+    errorMessage.textContent = 'Login passwords do not match.';
+    return;
   }
   if (masterPassword !== confirmMasterPassword) {
-      errorMessage.textContent = 'Master passwords do not match.';
-      return;
+    errorMessage.textContent = 'Master passwords do not match.';
+    return;
   }
   console.log(SHA256.hash(loginPassword)); // Example Login Password is Password123 | Hashed Version: 008c70392e3abfbd0fa47bbc2ed96aa99bd49e159727fcba0f2e6abeb3a9d601
   console.log(SHA256.hash(masterPassword)); // Example Master Password is 1 | Hashed Version: 6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b

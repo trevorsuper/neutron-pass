@@ -1,10 +1,8 @@
 document.getElementById('loginForm').addEventListener('submit', function(event) {
   event.preventDefault();
-  
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   const errorMessage = document.getElementById('error-message');
-
   errorMessage.textContent = '';
 
   if (email === '' || password === '') {
@@ -50,9 +48,7 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
   const code = document.getElementById('code').value;
   const errorMessage = document.getElementById('code-error-message');
   const email = document.getElementById('hidden-email').value;
-
   errorMessage.textContent = '';
-
   console.log(`Verifying code: ${code} for email: ${email}`);
 
   // Send the code and email to the server for verification
@@ -78,7 +74,7 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
     }
   })
   .catch(error => {
-    errorMessage.textContent = 'Failed to verify the code.';
+    errorMessage.textContent = 'Code is invalid or expired.';
     console.error('Error:', error);
   });
 });

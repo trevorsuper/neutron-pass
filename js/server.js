@@ -46,18 +46,18 @@ app.post('/send-login-verification-email', (req, res) => {
   console.log(`Received request to send login verification email to: ${email}`);
   console.log(`Generated verification code: ${verificationCode}`);
 
-  // Store the verification code with an expiration time (e.g., 10 minutes)
+  // Store the verification code with an expiration time
   verificationCodes[email] = {
     code: verificationCode,
-    expiresAt: Date.now() + 10 * 60 * 1000 // 10 minutes from now
+    expiresAt: Date.now() + 10 * 60 * 1000 // 10 minutes
   };
 
   let mailOptions = {
     from: '"Neutron Pass" <neutron.pass.master@gmail.com>',
     to: email,
     subject: 'New Login Detected',
-    text: `A new login has been detected. Verification code: ${verificationCode}`,
-    html: `<b>A new login has been detected. Verification code: ${verificationCode}</b>`
+    text: `A new login has been detected. Verification code expires in 10 minutes: ${verificationCode}`,
+    html: `<b>A new login has been detected. Verification code expires in 10 minutes: ${verificationCode}</b>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
