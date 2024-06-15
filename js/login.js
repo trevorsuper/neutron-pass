@@ -44,20 +44,26 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
 document.getElementById('codeForm').addEventListener('submit', function(event) {
   event.preventDefault();
-  
+  const length = 6;
+  const numbers = '0123456789';
   const code = document.getElementById('code').value;
   const errorMessage = document.getElementById('code-error-message');
 
   errorMessage.textContent = '';
 
+  let randomCode = '';
+  for (let i = 0; i < length; i++) {
+    randomCode += numbers[Math.floor(Math.random() * numbers.length)];
+  }
+
   // error prompt
-  if (code === '') {
+  if (randomCode === '') {
     errorMessage.textContent = 'Please enter the verification code.';
     return;
   }
 
   // Placeholder until database
-  if (code === '123456') {
+  if (code === randomCode) {
     //setCookie("email", "test@example.com", "password", "008c70392e3abfbd0fa47bbc2ed96aa99bd49e159727fcba0f2e6abeb3a9d601", 0.25);
     window.location.href = 'welcome.html';
     // Redirect to another page or perform other actions
