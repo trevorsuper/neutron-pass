@@ -57,7 +57,7 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
   }
 
   // error prompt
-  if (randomCode === '') {
+  if (code === '') {
     errorMessage.textContent = 'Please enter the verification code.';
     return;
   }
