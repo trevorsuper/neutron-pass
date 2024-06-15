@@ -13,7 +13,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
   }
 
   // Placeholder until database
-  if (email === 'loganmtemplin@gmail.com' && password === 'Password123') { //change to a working email to test
+  if (email === 'loganmtemplin@gmail.com' && password === 'Password123') { // Change to a working email to test
     // Send request to server to send verification email
     fetch('http://localhost:3000/send-login-verification-email', {
       method: 'POST',
@@ -22,7 +22,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       },
       body: JSON.stringify({ email: email })
     })
-    .then(response => response.text()) 
+    .then(response => response.json()) 
     .then(data => {
       if (data.error) {
         errorMessage.textContent = 'Failed to send verification email.';
@@ -31,6 +31,9 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         alert('Verification code sent to your email');
         document.getElementById('login-step').style.display = 'none';
         document.getElementById('code-step').style.display = 'block';
+        // Store the email in a hidden input for later use
+        document.getElementById('hidden-email').value = email;
+        console.log(`Stored email for verification: ${email}`);
       }
     })
     .catch(error => {
@@ -44,45 +47,42 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
 document.getElementById('codeForm').addEventListener('submit', function(event) {
   event.preventDefault();
-  const length = 6;
-  const numbers = '0123456789';
   const code = document.getElementById('code').value;
   const errorMessage = document.getElementById('code-error-message');
+  const email = document.getElementById('hidden-email').value;
 
   errorMessage.textContent = '';
 
-  let randomCode = '';
-  for (let i = 0; i < length; i++) {
-    randomCode += numbers[Math.floor(Math.random() * numbers.length)];
-  }
+  console.log(`Verifying code: ${code} for email: ${email}`);
 
-  // error prompt
-  if (code === '') {
-    errorMessage.textContent = 'Please enter the verification code.';
-    return;
-  }
-
-  // Placeholder until database
-  if (code === randomCode) {
-    //setCookie("email", "test@example.com", "password", "008c70392e3abfbd0fa47bbc2ed96aa99bd49e159727fcba0f2e6abeb3a9d601", 0.25);
-    window.location.href = 'welcome.html';
-    // Redirect to another page or perform other actions
-  } else {
-    errorMessage.textContent = 'Invalid verification code.';
-  }
+  // Send the code and email to the server for verification
+  fetch('http://localhost:3000/verify-code', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: email, code: code })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Verification response:', data);
+    if (data.valid) {
+      window.location.href = 'welcome.html';
+    } else {
+      errorMessage.textContent = 'Invalid verification code.';
+    }
+  })
+  .catch(error => {
+    errorMessage.textContent = 'Failed to verify the code.';
+    console.error('Error:', error);
+  });
 });
 
 document.getElementById('createAccountButton').addEventListener('click', function() {
   window.location.href = 'create_account.html';
 });
-
-/*
-function setCookie(email_literal, email_actual, password_literal, password_actual, daysToLive){
-  const date = new Date();
-  date.setTime(date.getTime() + (daysToLive * 24 * 60 * 60 * 1000));
-  let expires = "expires=" + date.toUTCString();
-  document.cookie = `${email_literal}=${email_actual};`;
-  document.cookie = `${password_literal}=${password_actual};`;
-  //console.log(document.cookie); // debug log to read the cookies
-}
-*/
