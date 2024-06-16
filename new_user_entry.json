@@ -1,0 +1,19 @@
+{
+  "email_id": "",
+  "login_password": "",
+  "master_password": "",
+  "passwords": {
+    "site1": [
+      "email1",
+      "password1"
+    ],
+    "site2": [
+      "email2",
+      "password2"
+    ],
+    "site3": [
+      "email3",
+      "password3"
+    ]
+  }
+}
