@@ -70,6 +70,30 @@ app.post('/send-login-verification-email', (req, res) => {
   });
 });
 
+// Endpoint to send account creation verification email
+app.post('/send-verification-email', (req, res) => {
+  const { email } = req.body;
+
+  console.log(`Received request to send account creation verification email to: ${email}`);
+
+  let mailOptions = {
+    from: '"Neutron Pass" <neutron.pass.master@gmail.com>',
+    to: email,
+    subject: 'Account Created Successfully',
+    text: 'Your account has been created successfully. Please verify your email address.',
+    html: `<b>Your account has been created successfully. Please verify your email address.</b>`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error occurred: ', error.message);
+      return res.status(500).send({ error: error.message });
+    }
+    console.log('Email sent: ', info.response);
+    res.status(200).send({ message: 'Verification email sent' });
+  });
+});
+
 // Endpoint to verify the code
 app.post('/verify-code', (req, res) => {
   const { email, code } = req.body;
