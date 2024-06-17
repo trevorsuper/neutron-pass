@@ -78,8 +78,8 @@ function sendVerificationEmail(email, res) {
     from: '"Neutron Pass" <neutron.pass.master@gmail.com>',
     to: email,
     subject: 'Account Created Successfully',
-    text: 'Your account has been created successfully. Please verify your email address.',
-    html: `<b>Your account has been created successfully. Please verify your email address.</b>`
+    text: 'Your account has been created successfully.',
+    html: `<b>Your account has been created successfully.</b>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -101,7 +101,20 @@ app.post('/create-account', (req, res) => {
     email_id: email,
     login_password: login_password,
     master_password: master_password,
-    passwords: {}
+    passwords: {
+      "site1": [
+        "email1",
+        "password1"
+      ],
+      "site2": [
+        "email2",
+        "password2"
+      ],
+      "site3": [
+        "email3",
+        "password3"
+      ]
+    }
   };
 
   // Read existing data from JSON file
