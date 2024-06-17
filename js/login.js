@@ -39,6 +39,15 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
   });
 });
 
+document.getElementById('showPasswordButton').addEventListener('click', function() {
+  const loginPasswordField = document.getElementById('login_password');
+  if (loginPasswordField.type === 'password') {
+    loginPasswordField.type = 'text';
+  } else {
+    loginPasswordField.type = 'password';
+  }
+});
+
 document.getElementById('codeForm').addEventListener('submit', function(event) {
   event.preventDefault();
   const code = document.getElementById('code').value;
