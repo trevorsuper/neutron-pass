@@ -205,6 +205,75 @@ app.post('/login', (req, res) => {
   }
 });
 
+// Endpoint to get passwords
+app.get('/passwords', (req, res) => {
+  try {
+    const jsonData = fs.readFileSync('./user.json', 'utf8');
+    const data = JSON.parse(jsonData);
+    const passwords = data.map(user => user.passwords);
+    res.status(200).send(passwords);
+  } catch (err) {
+    console.error('Error reading file:', err);
+    res.status(500).send({ error: 'Failed to read passwords' });
+  }
+});
+
+// Endpoint to create a new password entry
+app.post('/passwords', (req, res) => {
+  const { site, email, password } = req.body;
+
+  try {
+    const jsonData = fs.readFileSync('./user.json', 'utf8');
+    const data = JSON.parse(jsonData);
+    data[0].passwords[site] = [email, password];
+    fs.writeFileSync('./user.json', JSON.stringify(data, null, 2));
+    res.status(200).send({ message: 'Password entry created' });
+  } catch (err) {
+    console.error('Error writing file:', err);
+    res.status(500).send({ error: 'Failed to create password entry' });
+  }
+});
+
+// Endpoint to update a password entry
+app.put('/passwords', (req, res) => {
+  const { site, email, password } = req.body;
+
+  try {
+    const jsonData = fs.readFileSync('./user.json', 'utf8');
+    const data = JSON.parse(jsonData);
+    if (data[0].passwords[site]) {
+      data[0].passwords[site] = [email, password];
+      fs.writeFileSync('./user.json', JSON.stringify(data, null, 2));
+      res.status(200).send({ message: 'Password entry updated' });
+    } else {
+      res.status(404).send({ error: 'Site not found' });
+    }
+  } catch (err) {
+    console.error('Error writing file:', err);
+    res.status(500).send({ error: 'Failed to update password entry' });
+  }
+});
+
+// Endpoint to delete a password entry
+app.delete('/passwords', (req, res) => {
+  const { site } = req.body;
+
+  try {
+    const jsonData = fs.readFileSync('./user.json', 'utf8');
+    const data = JSON.parse(jsonData);
+    if (data[0].passwords[site]) {
+      delete data[0].passwords[site];
+      fs.writeFileSync('./user.json', JSON.stringify(data, null, 2));
+      res.status(200).send({ message: 'Password entry deleted' });
+    } else {
+      res.status(404).send({ error: 'Site not found' });
+    }
+  } catch (err) {
+    console.error('Error writing file:', err);
+    res.status(500).send({ error: 'Failed to delete password entry' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

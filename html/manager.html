@@ -7,13 +7,13 @@
 </head>
 <body>
   <h1>Password Manager</h1>
-  <button onclick="">Add Entry</button>
-  <button onclick="">Edit Entry</button>
-  <button onclick="">Delete Entry</button>
-  <button onclick="reveal_passwords()">Reveal Passwords</button>
+  <button onclick="addEntry()">Add Entry</button>
+  <button onclick="editEntry()">Edit Entry</button>
+  <button onclick="deleteEntry()">Delete Entry</button>
+  <button onclick="revealPasswords()">Reveal Passwords</button>
   <button onclick="generatorRedirect()">Password Generator</button>
-  <div></div>
+  <div id="passwords"></div>
   <script src="../js/redirect.js"></script>
-  <script src="../js/server.js"></script>
+  <script src="../js/manager.js"></script>
 </body>
 </html>
