@@ -27,7 +27,6 @@ function promptMasterPassword(callback) {
             alert('Failed to add entry: ' + data.error);
           } else {
             alert('Entry added successfully');
-            revealPasswords();
           }
         })
         .catch(error => {
@@ -57,7 +56,6 @@ function promptMasterPassword(callback) {
             alert('Failed to update entry: ' + data.error);
           } else {
             alert('Entry updated successfully');
-            revealPasswords();
           }
         })
         .catch(error => {
@@ -85,7 +83,6 @@ function promptMasterPassword(callback) {
             alert('Failed to delete entry: ' + data.error);
           } else {
             alert('Entry deleted successfully');
-            revealPasswords();
           }
         })
         .catch(error => {
