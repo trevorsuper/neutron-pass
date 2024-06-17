@@ -14,7 +14,7 @@ function promptMasterPassword(callback) {
       const password = prompt('Enter password:');
   
       if (site && email && password) {
-        fetch('http://localhost:3000/passwords', {
+        fetch('http://localhost:3000/passwords/create', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -27,6 +27,7 @@ function promptMasterPassword(callback) {
             alert('Failed to add entry: ' + data.error);
           } else {
             alert('Entry added successfully');
+            revealPasswords();
           }
         })
         .catch(error => {
@@ -43,7 +44,7 @@ function promptMasterPassword(callback) {
       const password = prompt('Enter new password:');
   
       if (site && email && password) {
-        fetch('http://localhost:3000/passwords', {
+        fetch('http://localhost:3000/passwords/update', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -56,6 +57,7 @@ function promptMasterPassword(callback) {
             alert('Failed to update entry: ' + data.error);
           } else {
             alert('Entry updated successfully');
+            //revealPasswords();
           }
         })
         .catch(error => {
@@ -70,7 +72,7 @@ function promptMasterPassword(callback) {
       const site = prompt('Enter site name to delete:');
   
       if (site) {
-        fetch('http://localhost:3000/passwords', {
+        fetch('http://localhost:3000/passwords/delete', {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -83,6 +85,7 @@ function promptMasterPassword(callback) {
             alert('Failed to delete entry: ' + data.error);
           } else {
             alert('Entry deleted successfully');
+            revealPasswords();
           }
         })
         .catch(error => {

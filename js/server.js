@@ -101,11 +101,7 @@ app.post('/create-account', (req, res) => {
     email_id: email,
     login_password: login_password,
     master_password: master_password,
-    passwords: {
-      site1: ["email1", "password1"],
-      site2: ["email2", "password2"],
-      site3: ["email3", "password3"],
-    }
+    passwords: {}
   };
 
   // Read existing data from JSON file
