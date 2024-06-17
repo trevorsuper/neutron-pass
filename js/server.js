@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 const nodemailer = require('nodemailer');
-const crypto = require('crypto');
 const cors = require('cors');
 const app = express();
 const port = 3000;
@@ -71,9 +71,7 @@ app.post('/send-login-verification-email', (req, res) => {
 });
 
 // Endpoint to send account creation verification email
-app.post('/send-verification-email', (req, res) => {
-  const { email } = req.body;
-
+function sendVerificationEmail(email, res) {
   console.log(`Received request to send account creation verification email to: ${email}`);
 
   let mailOptions = {
@@ -92,6 +90,47 @@ app.post('/send-verification-email', (req, res) => {
     console.log('Email sent: ', info.response);
     res.status(200).send({ message: 'Verification email sent' });
   });
+}
+
+// Endpoint to create a new account
+app.post('/create-account', (req, res) => {
+  const { email, login_password, master_password } = req.body;
+
+  // Create new entry
+  const new_entry = {
+    email_id: email,
+    login_password: login_password,
+    master_password: master_password,
+    passwords: {
+      site1: ["email1", "password1"],
+      site2: ["email2", "password2"],
+      site3: ["email3", "password3"],
+    }
+  };
+
+  // Read existing data from JSON file
+  let data = [];
+  try {
+    if (fs.existsSync('./user.json')) {
+      const jsonData = fs.readFileSync('./user.json', 'utf8');
+      data = JSON.parse(jsonData);
+    }
+  } catch (err) {
+    console.error('Error reading file:', err);
+  }
+
+  // Add new entry to data
+  data.push(new_entry);
+
+  // Write updated data back to JSON file
+  try {
+    fs.writeFileSync('./user.json', JSON.stringify(data, null, 2));
+    console.log('File successfully written');
+    sendVerificationEmail(email, res);
+  } catch (err) {
+    console.error('Error writing file:', err);
+    res.status(500).send({ error: 'Failed to create account' });
+  }
 });
 
 // Endpoint to verify the code
