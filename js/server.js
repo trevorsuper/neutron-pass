@@ -113,7 +113,7 @@ app.post('/create-account', (req, res) => {
   try {
     if (fs.existsSync('./user.json')) {
       const jsonData = fs.readFileSync('./user.json', 'utf8');
-      data = JSON.parse(jsonData);
+      data = jsonData ? JSON.parse(jsonData) : [];
     }
   } catch (err) {
     console.error('Error reading file:', err);
@@ -157,6 +157,51 @@ app.post('/verify-code', (req, res) => {
     // Code is invalid or expired
     console.log('Verification code is invalid or expired.');
     res.status(400).send({ valid: false, message: 'Invalid or expired verification code' });
+  }
+});
+
+// Endpoint to handle login
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  // Read existing data from JSON file
+  let data = [];
+  try {
+    if (fs.existsSync('./user.json')) {
+      const jsonData = fs.readFileSync('./user.json', 'utf8');
+      data = jsonData ? JSON.parse(jsonData) : [];
+    }
+  } catch (err) {
+    console.error('Error reading file:', err);
+    return res.status(500).send({ error: 'Failed to read user data' });
+  }
+
+  // Check if user exists
+  const user = data.find(user => user.email_id === email && user.login_password === password);
+  if (user) {
+    // Send verification email
+    fetch('http://localhost:3000/send-login-verification-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        console.error('Failed to send verification email:', data.error);
+        res.status(500).send({ error: 'Failed to send verification email' });
+      } else {
+        res.status(200).send({ message: 'Verification email sent' });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      res.status(500).send({ error: 'Failed to send verification email' });
+    });
+  } else {
+    res.status(400).send({ error: 'Invalid email or password' });
   }
 });
 
