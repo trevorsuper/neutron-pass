@@ -1,3 +1,0 @@
-In the neutron-pass folder directory open the terminal
-Type node ./js/server.js
-or node js/server.js
