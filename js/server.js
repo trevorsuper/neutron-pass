@@ -205,8 +205,33 @@ app.post('/login', (req, res) => {
   }
 });
 
+// Function to verify master password
+function verifyMasterPassword(masterPassword, res) {
+  let data = [];
+  try {
+    const jsonData = fs.readFileSync('./user.json', 'utf8');
+    data = jsonData ? JSON.parse(jsonData) : [];
+  } catch (err) {
+    console.error('Error reading file:', err);
+    res.status(500).send({ error: 'Failed to read user data' });
+    return false;
+  }
+  const user = data.find(user => user.master_password === masterPassword);
+  if (!user) {
+    res.status(400).send({ error: 'Invalid master password' });
+    return false;
+  }
+  return true;
+}
+
 // Endpoint to get passwords
-app.get('/passwords', (req, res) => {
+app.post('/passwords', (req, res) => {
+  const { masterPassword } = req.body;
+
+  if (!verifyMasterPassword(masterPassword, res)) {
+    return;
+  }
+
   try {
     const jsonData = fs.readFileSync('./user.json', 'utf8');
     const data = JSON.parse(jsonData);
@@ -219,8 +244,12 @@ app.get('/passwords', (req, res) => {
 });
 
 // Endpoint to create a new password entry
-app.post('/passwords', (req, res) => {
-  const { site, email, password } = req.body;
+app.post('/passwords/create', (req, res) => {
+  const { masterPassword, site, email, password } = req.body;
+
+  if (!verifyMasterPassword(masterPassword, res)) {
+    return;
+  }
 
   try {
     const jsonData = fs.readFileSync('./user.json', 'utf8');
@@ -235,8 +264,12 @@ app.post('/passwords', (req, res) => {
 });
 
 // Endpoint to update a password entry
-app.put('/passwords', (req, res) => {
-  const { site, email, password } = req.body;
+app.put('/passwords/update', (req, res) => {
+  const { masterPassword, site, email, password } = req.body;
+
+  if (!verifyMasterPassword(masterPassword, res)) {
+    return;
+  }
 
   try {
     const jsonData = fs.readFileSync('./user.json', 'utf8');
@@ -255,8 +288,12 @@ app.put('/passwords', (req, res) => {
 });
 
 // Endpoint to delete a password entry
-app.delete('/passwords', (req, res) => {
-  const { site } = req.body;
+app.delete('/passwords/delete', (req, res) => {
+  const { masterPassword, site } = req.body;
+
+  if (!verifyMasterPassword(masterPassword, res)) {
+    return;
+  }
 
   try {
     const jsonData = fs.readFileSync('./user.json', 'utf8');

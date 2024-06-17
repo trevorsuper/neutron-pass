@@ -15,6 +15,10 @@
       "testsite1": [
         "abc123@gmail.com",
         "abc"
+      ],
+      "testsite": [
+        "aaaa",
+        "vvvv"
       ]
     }
   }
