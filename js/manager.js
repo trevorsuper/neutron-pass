@@ -26,7 +26,6 @@ function addEntry() {
           alert('Failed to add entry: ' + data.error);
         } else {
           alert('Entry added successfully');
-          revealPasswords();
         }
       })
       .catch(error => {
@@ -55,7 +54,6 @@ function editEntry() {
           alert('Failed to update entry: ' + data.error);
         } else {
           alert('Entry updated successfully');
-          //revealPasswords();
         }
       })
       .catch(error => {
@@ -82,7 +80,6 @@ function deleteEntry() {
           alert('Failed to delete entry: ' + data.error);
         } else {
           alert('Entry deleted successfully');
-          revealPasswords();
         }
       })
       .catch(error => {
