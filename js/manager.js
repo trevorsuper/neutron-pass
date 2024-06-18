@@ -62,6 +62,28 @@ function editEntry() {
     }
   });
 }
+
+function editMaster() {
+  const masterPassword = prompt('Enter new master password:');
+  fetch('http://localhost:3000/master_password_update', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ masterPassword })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.error) {
+      alert('Failed to update master password: ' + data.error);
+    } else {
+      alert('master password updated successfully');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
   
 function deleteEntry() {
   promptMasterPassword(masterPassword => {

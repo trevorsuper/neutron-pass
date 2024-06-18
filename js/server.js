@@ -296,6 +296,25 @@ app.put('/passwords/update', (req, res) => {
   }
 });
 
+// endpoint to update master password
+app.put('/master_password_update', (req, res) => {
+  const { masterPassword } = req.body;
+  try {
+    const jsonData = fs.readFileSync('./user.json', 'utf8');
+    const data = JSON.parse(jsonData);
+    if (data[0].master_password) {
+      data[0].master_password = masterPassword;
+      fs.writeFileSync('./user.json', JSON.stringify(data, null, 2));
+      res.status(200).send({ message: 'Master password updated' });
+    } else {
+      res.status(404).send({ error: 'Site not found' });
+    }
+  } catch (err) {
+    console.error('Error writing file:', err);
+    res.status(500).send({ error: 'Failed to update master password' });
+  }
+});
+
 // Endpoint to delete a password entry
 app.delete('/passwords/delete', (req, res) => {
   const { masterPassword, site } = req.body;
