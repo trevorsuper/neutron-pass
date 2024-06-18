@@ -1,7 +1,7 @@
 document.getElementById('loginForm').addEventListener('submit', function(event) {
   event.preventDefault();
   let email = document.getElementById('email').value;
-  let password = document.getElementById('password').value;
+  let password = document.getElementById('login_password').value;
   const errorMessage = document.getElementById('error-message');
   errorMessage.textContent = '';
 
