@@ -1,0 +1,37 @@
+body {
+  background-color: rgba(23, 29, 30, 100%);
+  transform-origin: center; 
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: 100vh; 
+  margin: 0; 
+}
+
+.container {
+  text-align: center;
+}
+
+button {
+  color: rgba(23, 29, 30, 100%);
+  font-weight: bolder;
+}
+
+button {
+  text-align:center;
+  padding: 10px;
+  background-color: rgba(23, 29, 30, 100%);
+  color: #fff;
+
+  border: 1px solid white;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background-color: white;
+  color: rgba(100, 126, 131, 0.9);
+}

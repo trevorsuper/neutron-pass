@@ -4,15 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Password Manager</title>
+  <link rel="stylesheet" href="../css/interface_manager.css">
+
 </head>
 <body>
+  <div>
   <h1>Password Manager</h1>
+  
+  
   <button onclick="addEntry()">Add Entry</button>
   <button onclick="editEntry()">Edit Entry</button>
   <button onclick="deleteEntry()">Delete Entry</button>
+  
   <button onclick="revealPasswords()">Reveal/Refresh Passwords</button>
   <button onclick="editMaster()">Edit Master Password</button>
-  <button onclick="generatorRedirect()">Password Generator</button>
+  
+
+  <button onclick="generatorRedirect()">Password Generator</button></div>
   <div id="passwords"></div>
   <script src="../js/redirect.js"></script>
   <script src="../js/manager.js"></script>
