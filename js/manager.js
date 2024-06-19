@@ -64,7 +64,7 @@ function editEntry() {
 }
 
 function editMaster() {
-  const masterPassword = prompt('Enter new master password:');
+  const masterPassword = SHA256.hash(prompt('Enter new master password:'));
   fetch('http://localhost:3000/master_password_update', {
     method: 'PUT',
     headers: {
