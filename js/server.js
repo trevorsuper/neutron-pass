@@ -25,7 +25,6 @@ transporter.verify(function(error, success) {
   }
 });
 
-// Function to generate a numeric verification code
 function generateVerificationCode() {
   const length = 6;
   const numbers = '0123456789';
@@ -36,17 +35,14 @@ function generateVerificationCode() {
   return randomCode;
 }
 
-// Temporary storage for verification codes
 let verificationCodes = {};
 
-// Endpoint to send login verification email
 app.post('/send-login-verification-email', (req, res) => {
   const { email } = req.body;
   const verificationCode = generateVerificationCode();
   console.log(`Received request to send login verification email to: ${email}`);
   console.log(`Generated verification code: ${verificationCode}`);
 
-  // Store the verification code with an expiration time
   verificationCodes[email] = {
     code: verificationCode,
     expiresAt: Date.now() + 10 * 60 * 1000 // 10 minutes
@@ -70,7 +66,6 @@ app.post('/send-login-verification-email', (req, res) => {
   });
 });
 
-// Endpoint to send account creation verification email
 function sendVerificationEmail(email, res) {
   console.log(`Received request to send account creation verification email to: ${email}`);
 
@@ -92,11 +87,9 @@ function sendVerificationEmail(email, res) {
   });
 }
 
-// Endpoint to create a new account
 app.post('/create-account', (req, res) => {
   const { email, login_password, master_password } = req.body;
 
-  // Create new entry
   const new_entry = {
     email_id: email,
     login_password: login_password,
@@ -117,7 +110,6 @@ app.post('/create-account', (req, res) => {
     }
   };
 
-  // Read existing data from JSON file
   let data = [];
   try {
     if (fs.existsSync('./user.json')) {
@@ -128,10 +120,8 @@ app.post('/create-account', (req, res) => {
     console.error('Error reading file:', err);
   }
 
-  // Add new entry to data
   data.push(new_entry);
 
-  // Write updated data back to JSON file
   try {
     fs.writeFileSync('./user.json', JSON.stringify(data, null, 2));
     console.log('File successfully written');
@@ -142,7 +132,6 @@ app.post('/create-account', (req, res) => {
   }
 });
 
-// Endpoint to verify the code
 app.post('/verify-code', (req, res) => {
   const { email, code } = req.body;
   console.log(`Received request to verify code for: ${email}`);
@@ -158,22 +147,18 @@ app.post('/verify-code', (req, res) => {
   }
 
   if (storedData && storedData.code === code && Date.now() < storedData.expiresAt) {
-    // Code is valid
     console.log('Verification code is valid.');
     delete verificationCodes[email]; // Remove the code after verification
     res.status(200).send({ valid: true });
   } else {
-    // Code is invalid or expired
     console.log('Verification code is invalid or expired.');
     res.status(400).send({ valid: false, message: 'Invalid or expired verification code' });
   }
 });
 
-// Endpoint to handle login
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  // Read existing data from JSON file
   let data = [];
   try {
     if (fs.existsSync('./user.json')) {
@@ -185,10 +170,8 @@ app.post('/login', (req, res) => {
     return res.status(500).send({ error: 'Failed to read user data' });
   }
 
-  // Check if user exists
   const user = data.find(user => user.email_id === email && user.login_password === password);
   if (user) {
-    // Send verification email
     fetch('http://localhost:3000/send-login-verification-email', {
       method: 'POST',
       headers: {
@@ -214,7 +197,6 @@ app.post('/login', (req, res) => {
   }
 });
 
-// Function to verify master password
 function verifyMasterPassword(masterPassword, res) {
   let data = [];
   try {
@@ -233,7 +215,6 @@ function verifyMasterPassword(masterPassword, res) {
   return true;
 }
 
-// Endpoint to get passwords
 app.post('/passwords', (req, res) => {
   const { masterPassword } = req.body;
 
@@ -252,7 +233,6 @@ app.post('/passwords', (req, res) => {
   }
 });
 
-// Endpoint to create a new password entry
 app.post('/passwords/create', (req, res) => {
   const { masterPassword, site, email, password } = req.body;
 
@@ -272,7 +252,6 @@ app.post('/passwords/create', (req, res) => {
   }
 });
 
-// Endpoint to update a password entry
 app.put('/passwords/update', (req, res) => {
   const { masterPassword, site, email, password } = req.body;
 
@@ -296,7 +275,6 @@ app.put('/passwords/update', (req, res) => {
   }
 });
 
-// endpoint to update master password
 app.put('/master_password_update', (req, res) => {
   const { masterPassword } = req.body;
   try {
@@ -315,7 +293,6 @@ app.put('/master_password_update', (req, res) => {
   }
 });
 
-// Endpoint to delete a password entry
 app.delete('/passwords/delete', (req, res) => {
   const { masterPassword, site } = req.body;
 

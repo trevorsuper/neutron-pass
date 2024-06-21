@@ -10,8 +10,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     return;
   }
   password = SHA256.hash(password);
-  console.log(password);
-  // Send login request to server
   fetch('http://localhost:3000/login', {
     method: 'POST',
     headers: {
@@ -28,7 +26,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       alert('Verification code sent to your email');
       document.getElementById('login-step').style.display = 'none';
       document.getElementById('code-step').style.display = 'block';
-      // Store the email in a hidden input for later use
       document.getElementById('hidden-email').value = email;
       console.log(`Stored email for verification: ${email}`);
     }
@@ -56,7 +53,6 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
   errorMessage.textContent = '';
   console.log(`Verifying code: ${code} for email: ${email}`);
 
-  // Send the code and email to the server for verification
   fetch('http://localhost:3000/verify-code', {
     method: 'POST',
     headers: {

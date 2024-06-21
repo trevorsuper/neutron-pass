@@ -2,13 +2,8 @@ body {
     align-items: center;
     display: flex;
     justify-content: center;
-    /*font-family: Arial, sans-serif;*/
     font-family:  Arial, sans-serif;
     background-color:rgb(39, 49, 51);
-
-
-
-    
     height: 100vh;
     margin: 0;
 }

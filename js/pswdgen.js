@@ -24,11 +24,9 @@ function generatePassword() {
   }
 
   let password = '';
-  // Fill the password length with random characters from the selected sets
   for (let i = 0; i < length; i++) {
     password += allCharacters[Math.floor(Math.random() * allCharacters.length)];
   }
-  // Display the message and the password
   document.getElementById('message').innerText = "Here's your new password:";
   document.getElementById('password').innerText = password;
 }

@@ -23,9 +23,6 @@ document.getElementById('createAccountForm').addEventListener('submit', function
 
   loginPassword = SHA256.hash(loginPassword);
   masterPassword = SHA256.hash(masterPassword);
-  // console.log(loginPassword);
-  // console.log(masterPassword);
-  // Send a request to the server to create the account
   fetch('http://localhost:3000/create-account', {
     method: 'POST',
     headers: {
